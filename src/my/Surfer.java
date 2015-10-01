@@ -8,9 +8,7 @@ public class Surfer{
 	}
 	
 	public boolean equals(Surfer another){
-		if(local.equals(another) == false){ return false; }
-		if(global.equals(another) == false){ return false; }
-		return true;
+		return global.equals(another.get_global());
 	}
 	
 	public void set(IpPort local, IpPort global){

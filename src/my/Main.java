@@ -86,12 +86,31 @@ public class Main {
 		else {
 			surfer = requester;
 			tell_reject(packet);
+			System.out.println("rejected");
+			System.out.println("surfer was updated:");
+			System.out.println("    global_ip: " + surfer.get_global().ip);
+			System.out.println("    global_port: " + surfer.get_global().port);
 		}
 	}
 	
 	private boolean does_surfer_has_another(Surfer requester){
-		if(surfer.is_available() == false){ return false; }
-		return surfer.equals(requester) == false;
+		System.out.println("culculating surfer's differences...");
+		if(surfer.is_available() == false){
+			System.out.println("there are no waiting surfer.");
+			return false;
+		}
+		
+		System.out.println("waiting surfer's IP: " + surfer.get_global().ip);
+		System.out.println("request surfer's IP: " + requester.get_global().ip);
+		System.out.println("waiting surfer's port: " + surfer.get_global().port);
+		System.out.println("request surfer's port: " + requester.get_global().port);
+				
+		if(surfer.equals(requester) == true){
+			System.out.println("different IP.");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private Surfer get_requester(Request request, DatagramPacket packet){
@@ -129,6 +148,14 @@ public class Main {
         DatagramSocket ds = new DatagramSocket();
         ds.send(dp);
         ds.close();
+        
+        System.out.println("I send response:");
+        System.out.println("    content:");
+        System.out.println(response);
+        System.out.println("    to...");
+        System.out.println("        IP: " + to.get_global().ip);
+        System.out.println("        InetAddress: " + InetAddress.getByName(to.get_global().ip).toString());
+        System.out.println("        port: " + to.get_global().port);
 	}
 	
 	private void tell_reject(DatagramPacket packet) throws Exception {
